@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Auto-discovery -->
+    <context:component-scan base-package="edu.jft.prashant"/>
+
+    <!--serve the static resources-->
+    <mvc:resources mapping="resources/**" location="/WEB-INF/resources/"/>
+
+
+    <!--register spring-mvc specific beans like controllers and services-->
+    <mvc:annotation-driven/>
+
+    <!--view resolver-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    </bean>
+
+    <!-- Tiles configurations -->
+    <bean class="org.springframework.web.servlet.view.tiles2.TilesViewResolver"/>
+    <!--<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                &lt;!&ndash;<value>WEB-INF/views/tiles/**</value>&ndash;&gt;
+            </list>
+        </property>
+    </bean>-->
+
+    <!-- wire web services-->
+    <bean class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter">
+        <property name="baseAddress" value="http://localhost:7777/services/"/>
+    </bean>
+
+    <!-- Configure JMX and managed beans for export -->
+    <!--<bean id="homeControllerAssembler" class="org.springframework.jmx.export.assembler.MethodNameBasedMBeanInfoAssembler">
+        <property name="managedMethods" value="setBeanName"/>
+    </bean>
+    <bean id="mbeanExporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="beans">
+            <map>
+                <entry key="spitter:name=homeController" value-ref="home"/>
+            </map>
+        </property>
+        <property name="assembler" ref="homeControllerAssembler"/>
+    </bean>-->
+
+    <context:mbean-export/>
+</beans>
