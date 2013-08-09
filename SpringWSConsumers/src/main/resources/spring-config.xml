@@ -6,11 +6,39 @@
     <!-- Auto-discovery -->
     <context:component-scan base-package="edu.jft.prashant"/>
 
-    <bean id="spitterService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
+    <!--<bean id="spitterService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
         <property name="serviceInterface" value="edu.jft.prashant.wsendpoints.SpitterServiceEndpoint"/>
         <property name="wsdlDocumentUrl" value="http://localhost:7777/services/SpitterService?wsdl"/>
         <property name="serviceName" value="SpitterService"/>
         <property name="portName" value="SpitterServiceEndpointPort" />
         <property name="namespaceUri" value="http://wsendpoints.prashant.jft.edu/" />
+    </bean>-->
+
+    <!-- JAX-WS client proxy for UtilService endpoint-->
+    <bean id="utilService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
+        <property name="serviceInterface" value="edu.jft.prashant.services.endpoints.UtilServiceEndpoint"/>
+        <property name="wsdlDocumentUrl" value="http://localhost:7777/services/UtilService?wsdl"/>
+        <property name="serviceName" value="UtilService"/>
+        <property name="portName" value="UtilServiceEndpointPort"/>
+        <property name="namespaceUri" value="http://endpoints.services.prashant.jft.edu/"/>
     </bean>
+
+    <!-- Hessian client proxy for UtilService endpoint-->
+    <bean id="hessianUtilService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+        <property name="serviceUrl" value="http://localhost:7070/SpringMVCTest/util.hes"/>
+        <property name="serviceInterface" value="edu.jft.prashant.interfaces.UtilService"/>
+    </bean>
+
+    <!-- Burlap client proxy for UtilService endpoint-->
+    <bean id="burlapUtilService" class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">
+        <property name="serviceUrl" value="http://localhost:7070/SpringMVCTest/util.bur"/>
+        <property name="serviceInterface" value="edu.jft.prashant.interfaces.UtilService"/>
+    </bean>
+
+    <!-- HTTPInvoker client proxy for UtilService endpoint-->
+    <bean id="invUtilService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="http://localhost:7070/SpringMVCTest/util.inv" />
+        <property name="serviceInterface" value="edu.jft.prashant.interfaces.UtilService" />
+    </bean>
+
 </beans>
