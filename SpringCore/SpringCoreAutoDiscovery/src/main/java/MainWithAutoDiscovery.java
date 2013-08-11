@@ -14,8 +14,8 @@ public class MainWithAutoDiscovery {
 
     public static void main(String... args){
 
-//        Performer performer=(Performer) context.getBean("poeticJuggler");
-//        performer.perform();
+        Performer poeticJuggler=(Performer) context.getBean("poeticJuggler");
+        poeticJuggler.perform();
         Performer kenny=(Performer)context.getBean("kenny");
         kenny.perform();
         System.out.println("================");

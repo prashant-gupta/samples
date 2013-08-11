@@ -1,6 +1,8 @@
 package impls.di.auto.reference;
 
 import interfaces.Poem;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,8 +11,12 @@ import interfaces.Poem;
  * Time: 10:48 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class SimplePoem implements Poem {
-    String poem="baba baba black sheep";
+
+    @Value(value = "Hello Spring World !")
+    String poem;
+
     public void recite(){
         System.out.println(poem);
     }

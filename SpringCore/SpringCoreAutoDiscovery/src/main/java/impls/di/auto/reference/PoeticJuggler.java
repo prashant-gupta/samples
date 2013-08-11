@@ -4,6 +4,7 @@ import impls.di.auto.defaultconstruct.Juggler;
 import interfaces.Poem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * Time: 10:44 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class PoeticJuggler extends Juggler {
 
     @Autowired
