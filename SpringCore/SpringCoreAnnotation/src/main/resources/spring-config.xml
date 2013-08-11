@@ -1,0 +1,37 @@
+<?impls.di.xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--Enabling annotation wiring-->
+    <context:annotation-config/>
+
+    <bean id="poem" class="impls.di.annotation.reference.SimplePoem" />
+    <!--Injection with primitive values-->
+    <bean id="juggler" class="impls.di.annotation.defaultconstruct.Juggler"  >
+        <constructor-arg value="15"/>
+    </bean>
+    <!--injection with reference to other beans-->
+
+    <bean id="poeticJuggler" class="impls.di.annotation.reference.PoeticJuggler" autowire="byName">
+        <property name="bags" value="15"/>
+    </bean>
+
+
+    <!--Property injection-->
+    <bean id="saxophone" class="impls.di.annotation.property.Saxophone" primary="false"/>
+    <bean id="piano" class="impls.di.annotation.property.Piano" primary="true"/>
+    <!--for lazy injection using provider interface-->
+    <bean id="pianoProvider" class="impls.di.annotation.property.Piano" primary="false" scope="prototype"/>
+
+    <bean id="kenny" class="impls.di.annotation.property.Instrumentalist" autowire="byType">
+        <property name="song" value="This is a random song"/>
+        <property name="age" value="24"/>
+    </bean>
+
+    <bean id="kennyConstructor" class="impls.di.annotation.property.Instrumentalist" autowire="constructor">
+        <property name="song" value="constructor autowiring works !"/>
+    </bean>
+
+    <bean id="annotatedInstrumentalist" class="impls.di.annotation.reference.InstrumentalistAnnotated"/>
+</beans>
