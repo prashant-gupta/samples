@@ -1,0 +1,72 @@
+<?impls.di.xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Bean declarations go here -->
+
+    <!--Dependency Injections-->
+    <!--Default construction injection-->
+    <bean id="simplePoem" class="impls.di.xml.reference.SimplePoem" />
+    <!--Injection with primitive values-->
+    <bean id="juggler" class="impls.di.xml.defaultconstruct.Juggler"  >
+        <constructor-arg value="15"/>
+    </bean>
+    <!--injection with reference to other beans-->
+    <bean id="poeticJuggler" class="impls.di.xml.reference.PoeticJuggler">
+        <constructor-arg>
+            <bean class="impls.di.xml.reference.SimplePoem"/>
+        </constructor-arg>
+        <constructor-arg value="15"/>
+    </bean>
+
+    <!--injection via factory method-->
+    <bean id="stage" class="impls.di.xml.factory.Stage" factory-method="getInstance"/>
+
+    <!--Property injection-->
+    <bean id="saxphone" class="impls.di.xml.property.Saxophone"/>
+    <bean id="piano" class="impls.di.xml.property.Piano"/>
+
+    <bean id="kenny" class="impls.di.xml.property.Instrumentalist">
+        <property name="song" value="This is a random song"/>
+        <property name="age" value="24"/>
+        <property name="instrument" ref="saxphone"/>
+    </bean>
+
+    <!--wiring inner bean-->
+    <bean id="tidyKenny" class="impls.di.xml.property.TidyInstrumentalist">
+        <property name="song" value="Baba Baba black sheep..."/>
+        <property name="age" value="34"/>
+        <property name="instrument">
+            <bean class="impls.di.xml.property.Saxophone"/>
+        </property>
+    </bean>
+
+    <!--wiring collection-->
+    <bean id="oneManBand" class="impls.di.xml.property.collections.OneManBand" init-method="start" destroy-method="stop">
+
+        <property name="instruments">
+            <list>
+                <ref bean="saxphone"/>
+                <ref bean="piano"/>
+            </list>
+        </property>
+        <property name="songs">
+            <list>
+                <value>Baba Baba Black sheep</value>
+                <value>twinkle twinkle</value>
+            </list>
+        </property>
+        <property name="namedInstruments">
+            <map>
+                <entry key="saxophone" value-ref="saxphone"/>
+                <entry key="piano" value-ref="piano"/>
+            </map>
+        </property>
+    </bean>
+    <!--Dependency Injections-->
+
+    <!--Bean Scoping-->
+    <!--Prototype (every time a new instance will be created)-->
+    <bean id="ticket" class="impls.di.xml.scoping.Ticket" scope="prototype"/>
+</beans>
