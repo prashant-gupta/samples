@@ -1,5 +1,7 @@
 package edu.jft.prashant.interfaces;
 
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+
 /**
  * Created with IntelliJ IDEA.
  * User: prashant
@@ -8,5 +10,7 @@ package edu.jft.prashant.interfaces;
  * To change this template use File | Settings | File Templates.
  */
 public interface UtilService {
+    public int getVar();
+    public void setVar(int var);
     public String echo(String message);
 }

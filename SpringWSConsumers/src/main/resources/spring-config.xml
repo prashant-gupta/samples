@@ -6,14 +6,6 @@
     <!-- Auto-discovery -->
     <context:component-scan base-package="edu.jft.prashant"/>
 
-    <!--<bean id="spitterService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
-        <property name="serviceInterface" value="edu.jft.prashant.wsendpoints.SpitterServiceEndpoint"/>
-        <property name="wsdlDocumentUrl" value="http://localhost:7777/services/SpitterService?wsdl"/>
-        <property name="serviceName" value="SpitterService"/>
-        <property name="portName" value="SpitterServiceEndpointPort" />
-        <property name="namespaceUri" value="http://wsendpoints.prashant.jft.edu/" />
-    </bean>-->
-
     <!-- JAX-WS client proxy for UtilService endpoint-->
     <bean id="utilService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
         <property name="serviceInterface" value="edu.jft.prashant.services.endpoints.UtilServiceEndpoint"/>
@@ -39,6 +31,24 @@
     <bean id="invUtilService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl" value="http://localhost:7070/SpringMVCTest/util.inv" />
         <property name="serviceInterface" value="edu.jft.prashant.interfaces.UtilService" />
+    </bean>
+
+    <!--RMI client proxy for UtilService endpoint-->
+    <bean id="rmiUtilService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost/UtilService"/>
+        <property name="serviceInterface" value="edu.jft.prashant.interfaces.UtilService" />
+    </bean>
+
+    <!--configuring JMX server client-->
+    <bean id="jmxServerClient" class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean">
+        <property name="serviceUrl" value="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/jmxrmi" />
+    </bean>
+
+    <!--configuring JMX proxy bean for UtilService-->
+    <bean id="jmxUtilService" class="org.springframework.jmx.access.MBeanProxyFactoryBean">
+        <property name="server" ref="jmxServerClient" />
+        <property name="objectName" value="JFTTest:name=UtilServiceImpl" />
+        <property name="proxyInterface" value="edu.jft.prashant.interfaces.UtilService" />
     </bean>
 
 </beans>
