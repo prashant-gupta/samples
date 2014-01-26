@@ -32,12 +32,10 @@ public class MainWithXML {
         /*property injection with inner bean*/
         Performer tidyKenny=(Performer)context.getBean("tidyKenny");
         tidyKenny.perform();
-
         /* wiring collection */
         Performer oneManBand =(Performer)context.getBean("oneManBand");
         oneManBand.perform();
     }
-
     static {
         context=getApplicationContext();
     }
