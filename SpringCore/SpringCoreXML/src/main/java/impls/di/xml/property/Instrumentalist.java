@@ -49,7 +49,6 @@ public class Instrumentalist implements Performer{
 
     @Override
     public void perform() throws RuntimeException {
-        //To change body of implemented methods use File | Settings | File Templates.
         System.out.println("Kenny performing...");
         getInstrument().play();
         System.out.println("and singing "+getSong()+"...");
