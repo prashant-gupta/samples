@@ -15,14 +15,11 @@ public class MainWithXML {
 
         Performer performer=(Performer) context.getBean("poeticJuggler");
         performer.perform();
-
         Performer juggler=(Performer) context.getBean("juggler");
         juggler.perform();
-
         /*Singleton Injection*/
         Stage stage=(Stage)context.getBean("stage");
         out.println("stage == "+stage);
-//
         /* Prototype Bean Scope */
         Ticket[] tickets=new Ticket[5];
         for(int i=0;i<tickets.length;i++){
