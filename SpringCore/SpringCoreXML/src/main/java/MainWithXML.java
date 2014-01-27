@@ -26,20 +26,16 @@ public class MainWithXML {
             tickets[i]=(Ticket)context.getBean("ticket");
         }
         out.println("Tickets == "+ Arrays.asList(tickets));
-
         /* Property injection */
         Performer kenny=(Performer)context.getBean("kenny");
         kenny.perform();
-
         /*property injection with inner bean*/
         Performer tidyKenny=(Performer)context.getBean("tidyKenny");
         tidyKenny.perform();
-
         /* wiring collection */
         Performer oneManBand =(Performer)context.getBean("oneManBand");
         oneManBand.perform();
     }
-
     static {
         context=getApplicationContext();
     }
