@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
  * Time: 11:06 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component(value = "queueListener")
 public class QueueListener {
 
     public void getObject(Object object){

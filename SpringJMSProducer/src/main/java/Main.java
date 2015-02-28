@@ -23,11 +23,11 @@ public class Main {
         QueueSenderService queueSender=(QueueSenderService)ctx.getBean("queueProducer");
         JmsTemplate jmsTemplate=(JmsTemplate)ctx.getBean("jmsTemplate");
         queueSender.sendString("jft.queue","Another message");
-//        getMessage(jmsTemplate);
-
+        getMessage(jmsTemplate);
     }
 
     static {
+        System.out.println("========  loading context ======");
         ctx=new ClassPathXmlApplicationContext("spring-config.xml");
     }
 

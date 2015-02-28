@@ -18,7 +18,7 @@ import javax.jms.TextMessage;
  * Time: 9:25 PM
  * To change this template use File | Settings | File Templates.
  */
-@Component
+@Component(value = "queueProducer")
 public class QueueProducer implements QueueSenderService {
 
     @Autowired
