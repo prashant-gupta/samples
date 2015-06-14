@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jms="http://www.springframework.org/schema/jms"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
 
     <context:component-scan base-package="edu.jft.prashant"/>
 
-    <bean id="queueListener" class="edu.jft.prashant.QueueListener"/>
+    <!-- creates an embedded activemq message broker -->
+    <amq:broker brokerName="defaultBroker"
+            useJmx="false"
+            persistent="true"
+            dataDirectory="activemq-data">
+
+        <amq:destinations>
+            <amq:queue physicalName="jft.queue"/>
+            <amq:topic physicalName="jft.topic"/>
+        </amq:destinations>
+
+        <amq:transportConnectors>
+            <amq:transportConnector uri="tcp://localhost:61616" />
+        </amq:transportConnectors>
+    </amq:broker>
+
 
     <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="tcp://localhost:61616" />
-    </bean>
-
-    <bean id="queue" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="jft.queue"/>
-    </bean>
-
-    <!--JMS connection factory-->
-    <bean id="topic" class="org.apache.activemq.command.ActiveMQTopic">
-        <constructor-arg value="jft.topic"/>
     </bean>
 
     <!--JMS template with injected connection factory-->
@@ -26,11 +38,14 @@
         <property name="connectionFactory" ref="jmsConnectionFactory"/>
     </bean>
 
-
     <!--configuring jms listeners-->
-    <jms:listener-container connection-factory="jmsConnectionFactory">
-
-        <jms:listener destination="jft.queue" ref="queueListener" method="getObject"/>
-
+    <jms:listener-container destination-type="topic" connection-factory="jmsConnectionFactory">
+        <jms:listener destination="jft.topic" ref="topicListener" method="retrieveMessage"/>
+        <jms:listener destination="jft.topic" ref="topicListenerSlave" method="retrieveMessage"/>
     </jms:listener-container>
+
+    <jms:listener-container destination-type="queue" connection-factory="jmsConnectionFactory">
+        <jms:listener destination="jft.queue" ref="queueListener" method="getObject"/>
+    </jms:listener-container>
+
 </beans>

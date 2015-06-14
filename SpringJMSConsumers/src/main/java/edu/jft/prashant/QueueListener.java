@@ -1,5 +1,7 @@
 package edu.jft.prashant;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Created with IntelliJ IDEA.
  * User: prashant
@@ -7,6 +9,7 @@ package edu.jft.prashant;
  * Time: 11:06 PM
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class QueueListener {
 
     public void getObject(Object object){

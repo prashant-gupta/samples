@@ -12,16 +12,23 @@
 
     <context:component-scan base-package="edu.jft.prashant"/>
 
+
     <!-- creates an embedded activemq message broker -->
-    <amq:broker
-            useJmx="false"
-            persistent="true"
-            dataDirectory="activemq-data">
+    <!--<amq:broker brokerName="defaultBroker"
+                useJmx="false"
+                persistent="true"
+                dataDirectory="activemq-data">
+
+        <amq:destinations>
+            <amq:queue physicalName="jft.queue"/>
+            <amq:topic physicalName="jft.topic"/>
+        </amq:destinations>
 
         <amq:transportConnectors>
             <amq:transportConnector uri="tcp://localhost:61616" />
         </amq:transportConnectors>
-    </amq:broker>
+    </amq:broker>-->
+
 
     <!-- creates connext factory that would connect to our embedded activemq broker-->
     <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
@@ -42,11 +49,4 @@
         <property name="connectionFactory" ref="jmsConnectionFactory"/>
     </bean>
 
-
-    <!--configuring jms listeners-->
-    <jms:listener-container connection-factory="jmsConnectionFactory">
-
-        <!--<jms:listener destination="jft.queue" ref="queueListener" method="getObject"/>-->
-
-    </jms:listener-container>
 </beans>
